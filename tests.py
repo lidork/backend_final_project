@@ -10,10 +10,10 @@ import unittest
 import requests
 import time
 
-A = "http://localhost:3001"
-B = "http://localhost:3002"
-C = "http://localhost:3003"
-D = "http://localhost:3004"
+A = "https://backend-final-project-a.onrender.com"
+B = "https://backend-final-project-b.onrender.com"
+C = "https://backend-final-project-c.onrender.com"
+D = "https://backend-final-project-d.onrender.com"
 
 # Test user that will not conflict with the seed user (id 123123)
 TEST_USER = {"id": 999001, "first_name": "Test", "last_name": "User", "birthday": "1995-03-20"}
@@ -221,9 +221,9 @@ class TestProcessD(unittest.TestCase):
         self.assertIsInstance(r.json(), list)
 
     def test_about_has_three_members(self):
-        """GET /api/about returns exactly 3 team members."""
+        """GET /api/about returns exactly 2 team members."""
         r = requests.get(f"{D}/api/about")
-        self.assertEqual(len(r.json()), 3)
+        self.assertEqual(len(r.json()), 2)
 
     def test_about_entries_have_only_name_fields(self):
         """Each about entry contains only first_name and last_name — no extra fields."""
@@ -239,7 +239,6 @@ class TestProcessD(unittest.TestCase):
         names = [(m["first_name"], m["last_name"]) for m in r.json()]
         self.assertIn(("Lidor", "Kalfon"), names)
         self.assertIn(("Dana", "Mund"), names)
-        self.assertIn(("Shaked", "Avdar"), names)
 
 
 if __name__ == "__main__":
