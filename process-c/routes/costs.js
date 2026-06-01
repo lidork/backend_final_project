@@ -48,6 +48,11 @@ router.post('/add', async (req, res) => {
     return res.status(400).json({ id: userid, message: 'userid must be a number' });
   }
 
+  // Validate sum is a positive number (added post-submission — negative sums skewed user totals)
+  if (typeof sum !== 'number' || sum <= 0) {
+    return res.status(400).json({ id: userid, message: 'sum must be a positive number' });
+  }
+
   try {
     // Verify the user exists before accepting the cost
     const user = await User.findOne({ id: userid });
@@ -93,6 +98,10 @@ router.get('/report', async (req, res) => {
   const monthNum = Number(month);
   if (isNaN(userid) || isNaN(yearNum) || isNaN(monthNum)) {
     return res.status(400).json({ id, message: 'id, year, and month must be numbers' });
+  }
+
+  if (monthNum < 1 || monthNum > 12) {
+    return res.status(400).json({ id, message: 'month must be between 1 and 12' });
   }
 
   try {
